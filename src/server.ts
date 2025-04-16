@@ -1,4 +1,6 @@
 import express from 'express';
+import authRoutes from './interfaces/routes/authRoutes';
+
 
 export const createServer = () => {
     const app = express();
@@ -9,6 +11,9 @@ export const createServer = () => {
     app.get('/ping', (_req, res) => {
         res.send('pong');
     });
+
+    // Rutas
+    app.use('/api/auth', authRoutes);
 
     return app;
 };
