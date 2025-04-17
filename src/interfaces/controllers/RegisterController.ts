@@ -13,7 +13,7 @@ export class RegisterController {
         return;
       }
   
-      const { email, password } = result.data;
+      const { userName, email, password } = result.data;
   
       try {
         const userRepository = new UserRepositoryPrisma();
@@ -25,7 +25,7 @@ export class RegisterController {
         }
   
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await userRepository.create({ email, password: hashedPassword });
+        const user = await userRepository.create({  userName, email, password: hashedPassword });
   
         res.status(201).json({ id: user.id, email: user.email });
       } catch (error) {
