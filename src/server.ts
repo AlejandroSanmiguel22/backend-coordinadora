@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
 import shipmentRoutes from './interfaces/routes/shipmentRoutes';
 
+
 export const createServer = () => {
     const app = express();
 
