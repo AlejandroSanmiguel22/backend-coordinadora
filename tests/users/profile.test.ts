@@ -25,9 +25,11 @@ describe('GET /users/profile', () => {
       create: {
         email,
         password: hashedPassword,
+        userName: 'testprofile',
         role: 'admin'
       }
     });
+
 
     userId = user.id;
     token = jwt.sign({ userId, role: user.role }, JWT_SECRET, { expiresIn: '1h' });

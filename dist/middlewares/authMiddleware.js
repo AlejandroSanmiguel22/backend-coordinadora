@@ -9,15 +9,17 @@ const JWT_SECRET = process.env.JWT_SECRET || 'mi_clave_secreta';
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
-    if (!token)
-        return res.status(401).json({ message: 'Token no proporcionado' });
+    if (!token) {
+        res.status(401).json({ message: 'Token no proporcionado' });
+        return;
+    }
     try {
         const decoded = jsonwebtoken_1.default.verify(token, JWT_SECRET);
         req.user = decoded;
         next();
     }
     catch (error) {
-        return res.status(403).json({ message: 'Token inválido' });
+        res.status(403).json({ message: 'Token inválido' });
     }
 };
 exports.authenticateToken = authenticateToken;
