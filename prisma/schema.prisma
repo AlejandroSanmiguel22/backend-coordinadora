@@ -14,6 +14,21 @@ model User {
   password  String
   role      String?  @default("user")
   createdAt DateTime @default(now())
+
+  shipments Shipment[]
 }
+
+model Shipment {
+  id           Int      @id @default(autoincrement())
+  peso         Float
+  dimensiones  String
+  tipoProducto String
+  direccion    String
+  estado       String   @default("En espera")
+  user         User     @relation(fields: [userId], references: [id])
+  userId       Int
+  createdAt    DateTime @default(now())
+}
+
 
 
