@@ -18,9 +18,11 @@ describe('POST /api/auth/login', () => {
       create: {
         email: TEST_EMAIL,
         password: await bcrypt.hash(TEST_PASSWORD, 10),
+        userName: 'testlogin',
         role: 'admin'
       }
     });
+
   });
 
   afterAll(async () => {
@@ -34,9 +36,9 @@ describe('POST /api/auth/login', () => {
   it('debería iniciar sesión exitosamente con credenciales válidas', async () => {
     const response = await request(app)
       .post('/api/auth/login')
-      .send({ 
-        email: TEST_EMAIL, 
-        password: TEST_PASSWORD 
+      .send({
+        email: TEST_EMAIL,
+        password: TEST_PASSWORD
       });
 
     expect(response.statusCode).toBe(200);
@@ -49,21 +51,21 @@ describe('POST /api/auth/login', () => {
   it('debería fallar con contraseña incorrecta', async () => {
     const response = await request(app)
       .post('/api/auth/login')
-      .send({ 
-        email: TEST_EMAIL, 
-        password: 'contraseña-incorrecta' 
+      .send({
+        email: TEST_EMAIL,
+        password: 'contraseña-incorrecta'
       });
 
-    expect(response.statusCode).toBe(401);
+    exp.ect(response.statusCode).toBe(401);
     expect(response.body).toHaveProperty('message');
   });
 
   it('debería fallar con email no registrado', async () => {
     const response = await request(app)
       .post('/api/auth/login')
-      .send({ 
-        email: 'noexiste@example.com', 
-        password: TEST_PASSWORD 
+      .send({
+        email: 'noexiste@example.com',
+        password: TEST_PASSWORD
       });
 
     expect(response.statusCode).toBe(401);

@@ -1,16 +1,15 @@
-import { Router } from 'express';
-import { RegisterController } from '../controllers/RegisterController';
-import { LoginController } from '../controllers/LoginController';
-
-const router = Router();
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const RegisterController_1 = require("../controllers/RegisterController");
+const LoginController_1 = require("../controllers/LoginController");
+const router = (0, express_1.Router)();
 /**
  * @swagger
  * tags:
  *   name: Auth
  *   description: Endpoints de autenticación
  */
-
 /**
  * @swagger
  * /api/auth/register:
@@ -39,8 +38,7 @@ const router = Router();
  *       400:
  *         description: Datos de entrada inválidos
  */
-router.post('/register', (req, res) => RegisterController.handle(req, res));
-
+router.post('/register', (req, res) => RegisterController_1.RegisterController.handle(req, res));
 /**
  * @swagger
  * /api/auth/login:
@@ -54,11 +52,11 @@ router.post('/register', (req, res) => RegisterController.handle(req, res));
  *           schema:
  *             type: object
  *             required:
- *               - userName  
+ *               - userName
  *               - email
  *               - password
  *             properties:
- *               userName: 
+ *               userName:
  *                type: string
  *               email:
  *                 type: string
@@ -72,6 +70,5 @@ router.post('/register', (req, res) => RegisterController.handle(req, res));
  *       400:
  *         description: Datos de entrada inválidos
  */
-router.post('/login', (req, res) => LoginController.handle(req, res));
-
-export default router;
+router.post('/login', (req, res) => LoginController_1.LoginController.handle(req, res));
+exports.default = router;
