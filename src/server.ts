@@ -1,5 +1,6 @@
 import express from 'express';
 import authRoutes from './interfaces/routes/authRoutes';
+import userRoutes from './interfaces/routes/userRoutes';
 
 
 export const createServer = () => {
@@ -14,6 +15,6 @@ export const createServer = () => {
 
     // Rutas
     app.use('/api/auth', authRoutes);
-
+    app.use('/users', userRoutes);
     return app;
 };

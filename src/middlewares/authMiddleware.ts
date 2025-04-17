@@ -20,20 +20,24 @@ export const authenticateToken = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
-  if (!token) return res.status(401).json({ message: 'Token no proporcionado' });
+  if (!token) {
+    res.status(401).json({ message: 'Token no proporcionado' });
+    return;
+  }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(403).json({ message: 'Token inválido' });
+    res.status(403).json({ message: 'Token inválido' });
   }
 };
+
 
 export const authorizeRole = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
