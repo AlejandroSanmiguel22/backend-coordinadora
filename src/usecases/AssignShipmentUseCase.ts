@@ -1,7 +1,7 @@
 import { ShipmentRepository } from './ShipmentRepository';
 
 export class AssignShipmentUseCase {
-  constructor(private shipmentRepository: ShipmentRepository) {}
+  constructor(private shipmentRepository: ShipmentRepository) { }
 
   async execute(shipmentId: number, routeId: number) {
     const shipment = await this.shipmentRepository.findById(shipmentId);
@@ -17,6 +17,12 @@ export class AssignShipmentUseCase {
     const carrier = route.carrier;
     if (!carrier || !carrier.disponible) {
       throw new Error('El transportista asignado a esta ruta no está disponible');
+    }
+
+    const currentWeight = await this.shipmentRepository.getTotalWeightForRoute(routeId);
+
+    if (currentWeight + shipment.peso > route.capacidad) {
+      throw new Error('Capacidad de la ruta excedida');
     }
 
     return await this.shipmentRepository.assignRouteToShipment(shipmentId, routeId);

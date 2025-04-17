@@ -11,4 +11,7 @@ export interface ShipmentRepository {
   findRouteById(id: number): Promise<Route | null>;
 
   assignRouteToShipment(shipmentId: number, routeId: number): Promise<Shipment>;
+
+  getTotalWeightForRoute(routeId: number): Promise<number>;
+
 }

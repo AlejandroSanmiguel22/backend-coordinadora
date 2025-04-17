@@ -32,4 +32,14 @@ export class ShipmentRepositoryPrisma implements ShipmentRepository {
       },
     });
   }
+
+  async getTotalWeightForRoute(routeId: number): Promise<number> {
+    const result = await prisma.shipment.aggregate({
+      where: { routeId },
+      _sum: { peso: true }
+    });
+
+    return result._sum.peso || 0;
+  }
+
 }
