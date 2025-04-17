@@ -1,10 +1,8 @@
-// tests/auth/login.test.ts
 import request from 'supertest';
 import { createServer } from '../../src/server';
 import prisma from '../../src/infrastructure/database/prismaClient';
 import bcrypt from 'bcrypt';
 
-// Configuración inicial
 const app = createServer();
 const TEST_EMAIL = 'testlogin@example.com';
 const TEST_PASSWORD = 'clave123';
@@ -56,7 +54,7 @@ describe('POST /api/auth/login', () => {
         password: 'contraseña-incorrecta'
       });
 
-    exp.ect(response.statusCode).toBe(401);
+    expect(response.statusCode).toBe(401);
     expect(response.body).toHaveProperty('message');
   });
 
