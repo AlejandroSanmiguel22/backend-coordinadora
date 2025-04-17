@@ -54,9 +54,12 @@ router.post('/register', (req, res) => RegisterController.handle(req, res));
  *           schema:
  *             type: object
  *             required:
+ *               - userName  
  *               - email
  *               - password
  *             properties:
+ *               userName: 
+ *                type: string
  *               email:
  *                 type: string
  *               password:
