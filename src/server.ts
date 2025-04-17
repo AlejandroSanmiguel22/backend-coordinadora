@@ -4,6 +4,7 @@ import authRoutes from './interfaces/routes/authRoutes';
 import userRoutes from './interfaces/routes/userRoutes';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
+import shipmentRoutes from './interfaces/routes/shipmentRoutes';
 
 export const createServer = () => {
     const app = express();
@@ -20,6 +21,7 @@ export const createServer = () => {
     // Rutas
     app.use('/api/auth', authRoutes);
     app.use('/users', userRoutes);
+    app.use('/api/shipments', shipmentRoutes);
 
     return app;
 };
