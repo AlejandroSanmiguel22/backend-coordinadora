@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { CreateShipmentController } from '../controllers/CreateShipmentController';
+import { GetMyShipmentsController } from '../controllers/GetMyShipmentsController';
 import { authenticateToken } from '../../middlewares/authMiddleware';
 
 const router = Router();
@@ -43,5 +44,23 @@ const router = Router();
  *         description: Error interno del servidor
  */
 router.post('/', authenticateToken, CreateShipmentController.handle);
+
+/**
+ * @swagger
+ * /api/shipments/mine:
+ *   get:
+ *     summary: Obtener los envíos del usuario autenticado
+ *     tags: [Shipments]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de envíos del usuario
+ *       401:
+ *         description: Usuario no autenticado
+ *       500:
+ *         description: Error interno del servidor
+ */
+router.get('/mine', authenticateToken, GetMyShipmentsController.handle);
 
 export default router;
