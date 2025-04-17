@@ -35,16 +35,20 @@ export const authenticateToken = (
     next();
   } catch (error) {
     res.status(403).json({ message: 'Token inválido' });
+    return;
   }
 };
 
-
 export const authorizeRole = (roles: string[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    if (!req.user) return res.status(401).json({ message: 'Usuario no autenticado' });
+  return (req: Request, res: Response, next: NextFunction): void => {
+    if (!req.user) {
+      res.status(401).json({ message: 'Usuario no autenticado' });
+      return;
+    }
 
     if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ message: 'No tienes permisos para acceder a esta ruta' });
+      res.status(403).json({ message: 'No tienes permisos para acceder a esta ruta' });
+      return;
     }
 
     next();
