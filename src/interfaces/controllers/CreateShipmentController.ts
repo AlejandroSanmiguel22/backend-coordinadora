@@ -37,4 +37,5 @@ export class CreateShipmentController {
       res.status(500).json({ message: 'Error al registrar el envío', error });
     }
   }
+
 }

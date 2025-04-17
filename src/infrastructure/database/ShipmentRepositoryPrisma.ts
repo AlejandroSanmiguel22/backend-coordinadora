@@ -13,4 +13,10 @@ export class ShipmentRepositoryPrisma implements ShipmentRepository {
 
     return result;
   }
+
+  async getShipmentsByUserId(userId: number): Promise<Shipment[]> {
+    return await prisma.shipment.findMany({ where: { userId } });
+  }
+  
+  
 }
