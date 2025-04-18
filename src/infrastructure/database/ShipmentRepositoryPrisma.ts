@@ -19,7 +19,7 @@ export class ShipmentRepositoryPrisma implements ShipmentRepository {
   async findRouteById(id: number): Promise<Route | null> {
     return await prisma.route.findUnique({
       where: { id },
-      include: { carrier: true }, // Trae transportista para validación
+      include: { carrier: true },
     });
   }
 
@@ -41,5 +41,10 @@ export class ShipmentRepositoryPrisma implements ShipmentRepository {
 
     return result._sum.peso || 0;
   }
+
+  async getAll(): Promise<Shipment[]> {
+    return await prisma.shipment.findMany();
+  }
+  
 
 }
