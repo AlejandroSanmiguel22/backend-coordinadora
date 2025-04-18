@@ -14,4 +14,7 @@ export interface ShipmentRepository {
 
   getTotalWeightForRoute(routeId: number): Promise<number>;
 
+  getAll(): Promise<Shipment[]>;
+
+
 }
