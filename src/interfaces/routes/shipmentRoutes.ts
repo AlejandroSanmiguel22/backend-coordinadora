@@ -4,6 +4,7 @@ import { GetMyShipmentsController } from '../controllers/GetMyShipmentsControlle
 import { authenticateToken, authorizeRole } from '../../middlewares/authMiddleware';
 import { AssignShipmentController } from '../controllers/AssignShipmentController';
 import { GetAllShipmentsController } from '../controllers/GetAllShipmentsController';
+import { GetRoutesController } from '../controllers/GetRoutesController';
 
 
 const router = Router();
@@ -119,5 +120,23 @@ router.put('/:id/assign', authenticateToken, authorizeRole(['admin']), AssignShi
  *         description: Usuario no autenticado
  */
 router.get('/', authenticateToken, authorizeRole(['admin']), GetAllShipmentsController.handle);
+
+
+/**
+ * @swagger
+ * /api/shipments/routes:
+ *   get:
+ *     summary: Obtener todas las rutas con el transportista
+ *     tags: [Shipments]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de rutas con el transportista
+ *       401:
+ *         description: Usuario no autenticado
+ */
+
+router.get('/routes', authenticateToken, authorizeRole(['admin']), GetRoutesController.handle);
 
 export default router;
