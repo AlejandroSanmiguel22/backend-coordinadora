@@ -23,7 +23,9 @@ export const createServer = () => {
     app.use('/api/auth', authRoutes);
     app.use('/users', userRoutes);
     app.use('/api/shipments', shipmentRoutes);
+    app.use('/api/shipments', shipmentRoutes);
     app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
     return app;
 };

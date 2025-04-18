@@ -5,6 +5,7 @@ import { authenticateToken, authorizeRole } from '../../middlewares/authMiddlewa
 import { AssignShipmentController } from '../controllers/AssignShipmentController';
 import { GetAllShipmentsController } from '../controllers/GetAllShipmentsController';
 import { GetRoutesController } from '../controllers/GetRoutesController';
+import { GetShipmentStatusController } from '../controllers/GetShipmentStatusController';
 
 
 const router = Router();
@@ -138,5 +139,32 @@ router.get('/', authenticateToken, authorizeRole(['admin']), GetAllShipmentsCont
  */
 
 router.get('/routes', authenticateToken, authorizeRole(['admin']), GetRoutesController.handle);
+
+
+
+/**
+ * @swagger
+ * /api/shipments/{id}/status:
+ *   get:
+ *     summary: Obtener el estado de un envío
+ *     tags: [Shipments]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del envío a consultar
+ *     responses:
+ *       200:
+ *         description: Estado del envío
+ *       400:
+ *         description: ID de envío inválido
+ *       401:
+ *         description: Usuario no autenticado
+ */
+router.get('/:id/status', authenticateToken, GetShipmentStatusController.handle);
 
 export default router;
