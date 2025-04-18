@@ -3,6 +3,7 @@ import { Route } from '../domain/models/Route';
 
 export interface ShipmentRepository {
 
+
   create(shipment: Omit<Shipment, 'id' | 'estado' | 'createdAt'>): Promise<Shipment>;
 
   getShipmentsByUserId(userId: number): Promise<Shipment[]>;
@@ -20,6 +21,8 @@ export interface ShipmentRepository {
   getAllRoutesWithCarrier(): Promise<Route[]>;
 
   saveStatusHistory(shipmentId: number, estado: string): Promise<void>;
+
+  updateStatus(shipmentId: number, estado: string): Promise<Shipment>;
 
 
 

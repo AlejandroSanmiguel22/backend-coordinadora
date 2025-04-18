@@ -74,6 +74,14 @@ export class ShipmentRepositoryPrisma implements ShipmentRepository {
     });
   }
 
+  async updateStatus(shipmentId: number, estado: string): Promise<Shipment> {
+    return await prisma.shipment.update({
+      where: { id: shipmentId  },
+      data: { estado },
+    });
+  }
+
+
 
 
 }
