@@ -32,6 +32,12 @@ export class CreateShipmentController {
         userId,
       });
 
+      if (shipment.id !== undefined) {
+        await repository.saveStatusHistory(shipment.id, 'En espera');
+      } else {
+        throw new Error('Shipment ID is undefined');
+      }
+      
       res.status(201).json(shipment);
     } catch (error) {
       res.status(500).json({ message: 'Error al registrar el envío', error });

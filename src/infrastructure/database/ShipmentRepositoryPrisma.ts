@@ -24,14 +24,18 @@ export class ShipmentRepositoryPrisma implements ShipmentRepository {
   }
 
   async assignRouteToShipment(shipmentId: number, routeId: number): Promise<Shipment> {
-    return await prisma.shipment.update({
+    const updatedShipment = await prisma.shipment.update({
       where: { id: shipmentId },
       data: {
         routeId,
         estado: 'En tránsito',
       },
     });
+    await this.saveStatusHistory(shipmentId, 'En tránsito');
+
+    return updatedShipment;
   }
+
 
   async getTotalWeightForRoute(routeId: number): Promise<number> {
     const result = await prisma.shipment.aggregate({
@@ -53,5 +57,23 @@ export class ShipmentRepositoryPrisma implements ShipmentRepository {
       },
     });
   }
+
+  async saveStatusHistory(shipmentId: number, estado: string): Promise<void> {
+    await prisma.shipmentStatusHistory.create({
+      data: {
+        shipmentId,
+        estado,
+      },
+    });
+  }
+
+  async getStatusHistoryByShipmentId(shipmentId: number) {
+    return await prisma.shipmentStatusHistory.findMany({
+      where: { shipmentId },
+      orderBy: { timestamp: 'asc' }
+    });
+  }
+
+
 
 }

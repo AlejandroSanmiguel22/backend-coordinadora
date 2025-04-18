@@ -16,5 +16,7 @@ export class CreateShipmentUseCase {
     return await this.repository.create({
       ...data,
     });
+
+    
   }
 }

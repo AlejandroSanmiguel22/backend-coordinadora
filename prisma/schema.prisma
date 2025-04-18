@@ -19,36 +19,41 @@ model User {
 }
 
 model Shipment {
-  id           Int      @id @default(autoincrement())
-  peso         Float
-  dimensiones  String
-  tipoProducto String
-  direccion    String
-  estado       String   @default("En espera")
-  user         User     @relation(fields: [userId], references: [id])
-  userId       Int
-  createdAt    DateTime @default(now())
-  routeId    Int?     // puede estar vacío si aún no ha sido asignado
-  route      Route?   @relation(fields: [routeId], references: [id])
+  id            Int                     @id @default(autoincrement())
+  peso          Float
+  dimensiones   String
+  tipoProducto  String
+  direccion     String
+  estado        String                  @default("En espera")
+  user          User                    @relation(fields: [userId], references: [id])
+  userId        Int
+  createdAt     DateTime                @default(now())
+  routeId       Int? // puede estar vacío si aún no ha sido asignado
+  route         Route?                  @relation(fields: [routeId], references: [id])
+  statusHistory ShipmentStatusHistory[]
 }
 
 model Carrier {
-  id        Int      @id @default(autoincrement())
-  nombre    String
+  id         Int     @id @default(autoincrement())
+  nombre     String
   disponible Boolean @default(true)
-  rutas     Route[]
+  rutas      Route[]
 }
 
 model Route {
-  id          Int      @id @default(autoincrement())
-  origen      String
-  destino     String
-  capacidad   Int      // Capacidad máxima del vehículo
-  carrierId   Int
-  carrier     Carrier  @relation(fields: [carrierId], references: [id])
-  shipments   Shipment[]
+  id        Int        @id @default(autoincrement())
+  origen    String
+  destino   String
+  capacidad Int // Capacidad máxima del vehículo
+  carrierId Int
+  carrier   Carrier    @relation(fields: [carrierId], references: [id])
+  shipments Shipment[]
 }
 
-
-
-
+model ShipmentStatusHistory {
+  id         Int      @id @default(autoincrement())
+  shipment   Shipment @relation(fields: [shipmentId], references: [id])
+  shipmentId Int
+  estado     String
+  timestamp  DateTime @default(now())
+}
