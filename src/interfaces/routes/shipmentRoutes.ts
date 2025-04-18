@@ -8,6 +8,12 @@ import { GetRoutesController } from '../controllers/GetRoutesController';
 import { GetShipmentStatusController } from '../controllers/GetShipmentStatusController';
 import { GetShipmentHistoryController } from '../controllers/GetShipmentHistoryController';
 import { UpdateShipmentStatusController } from '../controllers/UpdateShipmentStatusController';
+import { GetShipmentReportUseCase } from '../../usecases/GetShipmentReportUseCase';
+import { GetShipmentReportController } from '../controllers/GetShipmentReportController';
+
+
+const getShipmentReportUseCase = new GetShipmentReportUseCase();
+const getShipmentReportController = new GetShipmentReportController(getShipmentReportUseCase);
 
 
 const router = Router();
@@ -237,5 +243,130 @@ router.get('/:id/history', authenticateToken, GetShipmentHistoryController.handl
  */
 router.put('/:id/status', authenticateToken, authorizeRole(['admin']), UpdateShipmentStatusController.handle);
 
+
+/**
+ * @swagger
+ * /api/shipments/report:
+ *   get:
+ *     summary: Obtener reporte de envíos con filtros
+ *     tags: [Shipments]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: fechaDesde
+ *         schema:
+ *           type: string
+ *           format: date-time
+ *       - in: query
+ *         name: fechaHasta
+ *         schema:
+ *           type: string
+ *           format: date-time
+ *       - in: query
+ *         name: estado
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: transportistaId
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Reporte generado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 total:
+ *                   type: integer
+ *                 currentPage:
+ *                   type: integer
+ *                 pageSize:
+ *                   type: integer
+ *                 shipments:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                       peso:
+ *                         type: number
+ *                       dimensiones:
+ *                         type: string
+ *                       tipoProducto:
+ *                         type: string
+ *                       direccion:
+ *                         type: string
+ *                       estado:
+ *                         type: string
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                       user:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                           userName:
+ *                             type: string
+ *                           email:
+ *                             type: string
+ *                       route:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                           origen:
+ *                             type: string
+ *                           destino:
+ *                             type: string
+ *                           carrier:
+ *                             type: object
+ *                             properties:
+ *                               id:
+ *                                 type: integer
+ *                               nombre:
+ *                                 type: string
+ *                 metrics:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       carrierId:
+ *                         type: integer
+ *                       carrierNombre:
+ *                         type: string
+ *                       totalEnvios:
+ *                         type: integer
+ *                       tiempoPromedioSegundos:
+ *                         type: number
+ *                       tiempoPromedioFormato:
+ *                         type: string
+ *                         example: "1h 40min"
+ *       401:
+ *         description: No autenticado
+ *       403:
+ *         description: No autorizado
+ *       500:
+ *         description: Error interno del servidor
+ */
+
+router.get(
+  '/report',
+  authenticateToken,
+  authorizeRole(['admin']),
+  (req, res) => getShipmentReportController.handle(req, res)
+);
 
 export default router;
