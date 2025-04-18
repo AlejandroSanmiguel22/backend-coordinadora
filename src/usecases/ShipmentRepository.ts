@@ -2,6 +2,7 @@ import { Shipment } from '../domain/models/Shipment';
 import { Route } from  '../domain/models/Route';
 
 export interface ShipmentRepository {
+
   create(shipment: Omit<Shipment, 'id' | 'estado' | 'createdAt'>): Promise<Shipment>;
 
   getShipmentsByUserId(userId: number): Promise<Shipment[]>;
@@ -15,6 +16,8 @@ export interface ShipmentRepository {
   getTotalWeightForRoute(routeId: number): Promise<number>;
 
   getAll(): Promise<Shipment[]>;
+  
+  getAllRoutesWithCarrier(): Promise<Route[]>;
 
 
 }

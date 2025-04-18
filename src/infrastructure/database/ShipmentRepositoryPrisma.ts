@@ -45,6 +45,13 @@ export class ShipmentRepositoryPrisma implements ShipmentRepository {
   async getAll(): Promise<Shipment[]> {
     return await prisma.shipment.findMany();
   }
-  
+
+  async getAllRoutesWithCarrier(): Promise<Route[]> {
+    return await prisma.route.findMany({
+      include: {
+        carrier: true,
+      },
+    });
+  }
 
 }
