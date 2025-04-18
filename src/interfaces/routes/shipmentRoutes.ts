@@ -362,5 +362,11 @@ router.put('/:id/status', authenticateToken, authorizeRole(['admin']), UpdateShi
  *         description: Error interno del servidor
  */
 
+router.get(
+  '/report',
+  authenticateToken,
+  authorizeRole(['admin']),
+  (req, res) => getShipmentReportController.handle(req, res)
+);
 
 export default router;
