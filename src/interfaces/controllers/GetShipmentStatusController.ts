@@ -31,8 +31,13 @@ export class GetShipmentStatusController {
       await redisClient.set(redisKey, shipment.estado || '', { EX: 15 });
       res.json({ status: shipment.estado, source: 'db' });
 
-    } catch (error) {
-      res.status(500).json({ message: 'Error al obtener el estado del envío', error });
+    } catch (error: any) {
+      console.error('Error al obtener estado del envío:', error);
+      res.status(500).json({
+        message: 'Error al obtener el estado del envío',
+        error: error.message || 'Error desconocido'
+      });
     }
+
   }
 }
