@@ -35,10 +35,15 @@ describe('POST /api/shipments', () => {
   });
 
   afterAll(async () => {
+    await prisma.shipmentStatusHistory.deleteMany({
+      where: { shipment: { userId } },
+    });
+
     await prisma.shipment.deleteMany({ where: { userId } });
     await prisma.user.delete({ where: { email } });
     await prisma.$disconnect();
   });
+
 
   it('debería crear un envío exitosamente', async () => {
     const response = await request(app)
