@@ -14,8 +14,10 @@ describe('GET /api/shipments (admin)', () => {
     beforeAll(async () => {
         // Crear usuario admin
         const adminPassword = await bcrypt.hash('admin123', 10);
-        const admin = await prisma.user.create({
-            data: {
+        const admin = await prisma.user.upsert({
+            where: { email: 'adminlist@test.com' },
+            update: {},
+            create: {
                 email: 'adminlist@test.com',
                 password: adminPassword,
                 userName: 'admin',
@@ -26,9 +28,11 @@ describe('GET /api/shipments (admin)', () => {
 
         // Crear usuario normal
         const userPassword = await bcrypt.hash('user123', 10);
-        const user = await prisma.user.create({
-            data: {
-                email: 'userlist@test.com',
+        const user = await prisma.user.upsert({
+            where: { email: 'userlist@test.com' },
+            update: {},
+            create: {
+                email: 'userlist@test.com', // 🔧 corregido aquí
                 password: userPassword,
                 userName: 'usuario',
                 role: 'user',
@@ -49,11 +53,11 @@ describe('GET /api/shipments (admin)', () => {
     });
 
     afterAll(async () => {
-        await prisma.shipment.deleteMany({});
+        await prisma.shipmentStatusHistory.deleteMany(); // por si se generan registros en cascada
+        await prisma.shipment.deleteMany();
         await prisma.user.deleteMany({ where: { email: { in: ['adminlist@test.com', 'userlist@test.com'] } } });
         await prisma.$disconnect();
     });
-
 
     it('debería permitir a un admin obtener todos los envíos', async () => {
         const res = await request(app)

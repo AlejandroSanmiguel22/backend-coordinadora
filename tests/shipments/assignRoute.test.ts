@@ -16,7 +16,7 @@ describe('PUT /api/shipments/:id/assign', () => {
     beforeAll(async () => {
         // Crear admin
         const password = await bcrypt.hash('admin123', 10);
-         admin = await prisma.user.upsert({
+        admin = await prisma.user.upsert({
             where: { email: 'admin@test.com' },
             update: {},
             create: {
@@ -59,6 +59,7 @@ describe('PUT /api/shipments/:id/assign', () => {
     });
 
     afterAll(async () => {
+        await prisma.shipmentStatusHistory.deleteMany();
         await prisma.shipment.deleteMany();
         await prisma.route.deleteMany();
         await prisma.carrier.deleteMany();
@@ -161,7 +162,7 @@ describe('PUT /api/shipments/:id/assign', () => {
         const password = await bcrypt.hash('user123', 10);
         const user = await prisma.user.create({
             data: {
-                email: 'user@test.com',
+                email: 'nonadminuser@test.com',
                 password,
                 userName: 'usuario',
                 role: 'user'
