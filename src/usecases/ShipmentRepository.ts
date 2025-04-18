@@ -1,5 +1,5 @@
 import { Shipment } from '../domain/models/Shipment';
-import { Route } from  '../domain/models/Route';
+import { Route } from '../domain/models/Route';
 
 export interface ShipmentRepository {
 
@@ -16,8 +16,11 @@ export interface ShipmentRepository {
   getTotalWeightForRoute(routeId: number): Promise<number>;
 
   getAll(): Promise<Shipment[]>;
-  
+
   getAllRoutesWithCarrier(): Promise<Route[]>;
+
+  saveStatusHistory(shipmentId: number, estado: string): Promise<void>;
+
 
 
 }

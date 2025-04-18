@@ -6,6 +6,7 @@ import { AssignShipmentController } from '../controllers/AssignShipmentControlle
 import { GetAllShipmentsController } from '../controllers/GetAllShipmentsController';
 import { GetRoutesController } from '../controllers/GetRoutesController';
 import { GetShipmentStatusController } from '../controllers/GetShipmentStatusController';
+import { GetShipmentHistoryController } from '../controllers/GetShipmentHistoryController';
 
 
 const router = Router();
@@ -166,5 +167,31 @@ router.get('/routes', authenticateToken, authorizeRole(['admin']), GetRoutesCont
  *         description: Usuario no autenticado
  */
 router.get('/:id/status', authenticateToken, GetShipmentStatusController.handle);
+
+
+/**
+ * @swagger
+ * /api/shipments/{id}/history:
+ *   get:
+ *     summary: Obtener el historial de estado de un envío
+ *     tags: [Shipments]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del envío a consultar
+ *     responses:
+ *       200:
+ *         description: Historial de estado del envío
+ *       400:
+ *         description: ID de envío inválido
+ *       401:
+ *         description: Usuario no autenticado
+ */
+router.get('/:id/history', authenticateToken, GetShipmentHistoryController.handle);
 
 export default router;
